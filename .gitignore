@@ -1,0 +1,4 @@
+.vscode
+**/*.vcd
+**/*.vpp
+# **/*.xdc
