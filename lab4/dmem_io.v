@@ -20,7 +20,7 @@ module dmem_io(input clk,
     reg [15:0] portc_reg;
     reg [15:0]  portd_reg;
     
-    assign we_dmem  = (((a >  = 32'h00001000) && (a < 32'h00001800)) ? 1 : 0) & we;
+    assign we_dmem  = (((a >= 32'h00001000) && (a < 32'h00001800)) ? 1 : 0) & we;
     assign we_portc = (a == 32'h00007f20);
     assign we_portd = (a == 32'h00007ffc);
     
