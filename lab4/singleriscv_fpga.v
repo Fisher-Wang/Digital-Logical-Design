@@ -6,8 +6,8 @@ module singleriscv_fpga(input clk,
                         btnR,
                         input [15:0] sw,
                         output [15:0] led,
-                        output [6:0] seg,
-                        output [3:0] an);
+                        output [0:6] seg,
+                        output [0:3] an);
     
     wire [3:0] btn;
     wire [31:0] pc, instr;
@@ -18,9 +18,16 @@ module singleriscv_fpga(input clk,
     wire [15:0] portc_out;
     wire [15:0] portd_out;
     
-    assign bnt      = {btnL, btnC, btnR, btnU}; // add, sub, multiply,      = 
-    // TODO: You need connect this portb_in to output of BCD2Bin module which input is sw;
-    assign portb_in = sw;		
+    assign btn      = {btnL, btnC, btnR, btnU}; // add, sub, multiply,      = 
+    // assign portb_in = sw;		
+    BCD2binary_wfs u_BCD2binary_wfs (
+        .thousands_wfs(sw[15:12]),
+        .hundreds_wfs(sw[11:8]),
+        .tens_wfs(sw[7:4]),
+        .ones_wfs(sw[3:0]),
+        .binary_wfs(portb_in)
+    );
+    
     
     //generate 10hz clock
     reg [23:0] cnt;
@@ -51,7 +58,7 @@ module singleriscv_fpga(input clk,
         rst_sync <= btnU_reg;
     end
     
-    assign reset_global = rst_sync | btnD;  // TODO: debug
+    assign reset_global = rst_sync | btnU;  // TODO: debug
     
     // instantiate devices to be tested
     singleriscv u_singleriscv(mclk, reset_global, pc, instr,
@@ -65,8 +72,29 @@ module singleriscv_fpga(input clk,
     assign led = portd_out;
 
     // TODO: You need connect this IO to output of LED Driver which input is portc_out
-    assign seg = 0;
+    // assign seg = 0;
     // TODO: You need connect this IO to output of LED Driver which input is portc_out
-    assign an = 4'b1111;
+    // assign an = 4'b1111;
+
+    /* display */
+    wire [3:0] thousands, hundreds, tens, ones;
+    //bin2BCD
+    binary2BCD_wfs u_binary2BCD(
+    .binary_wfs(portc_out[13:0]),
+    .thousands_wfs(thousands),
+    .hundreds_wfs(hundreds),
+    .tens_wfs(tens),
+    .ones_wfs(ones)
+    );
+    //display
+    display_7seg_x4 u_display_7seg_x4(
+    .CLK(clk), //100MHz
+    .in0(ones),
+    .in1(tens),
+    .in2(hundreds),
+    .in3(thousands),
+    .seg(seg),
+    .an(an)
+    );
     
 endmodule

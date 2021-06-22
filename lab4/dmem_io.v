@@ -1,6 +1,6 @@
 module dmem_io(input clk,
                input we, // memwrite
-               input [31:0] a,
+               input [31:0] a, // address
                input [31:0] wd, // writedata
                output [31:0] rd,
                input [3:0] porta_in,
@@ -28,10 +28,6 @@ module dmem_io(input clk,
     assign portb = portb_in;
     
     assign rdata_RAM = RAM[a[5:2]];
-    
-    // add bcd2bin module here, from input sw to output portb
-    
-    // add bin2bcd and led7seg module here, from input portc_reg to output seg/an
     
     // dmem read
     always @(a, porta, portb, portc_reg, portd_reg, rdata_RAM) begin

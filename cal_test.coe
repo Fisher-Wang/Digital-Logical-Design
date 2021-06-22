@@ -1,0 +1,33 @@
+ Address    Code        Basic                     Source
+
+0x00000000  0x00000293  addi x5,x0,0x00000000 2    addi x5, x0, 0 # acc
+0x00000004  0x00000313  addi x6,x0,0x00000000 3    addi x6, x0, 0 # operator 
+0x00000008  0x07f00793  addi x15,x0,0x0000007f5    addi x15, x0, 0x7f
+0x0000000c  0x00879793  slli x15,x15,0x00000006    slli x15, x15, 8
+0x00000010  0x02078793  addi x15,x15,0x00000027    addi x15, x15, 0x20
+0x00000014  0x00008437  lui x8,0x00000008     11   lw x8, 0x7f00
+0x00000018  0xf0042403  lw x8,0xffffff00(x8)       
+0x0000001c  0x000083b7  lui x7,0x00000008     12   lw x7, 0x7f10
+0x00000020  0xf103a383  lw x7,0xffffff10(x7)       
+0x00000024  0x0077a023  sw x7,0x00000000(x15) 13   sw x7, (x15)
+0x00000028  0xfe0406e3  beq x8,x0,0xfffffff6  14   beq x8, x0, L1
+0x0000002c  0x000085b7  lui x11,0x00000008    16   lw x11, 0x7f00
+0x00000030  0xf005a583  lw x11,0xffffff00(x11)     
+0x00000034  0xfe858ce3  beq x11,x8,0xfffffffc 17   beq x11, x8, L2
+0x00000038  0x00038293  addi x5,x7,0x00000000 19   addi x5, x7, 0
+0x0000003c  0x00040313  addi x6,x8,0x00000000 20   addi x6, x8, 0
+0x00000040  0x00008437  lui x8,0x00000008     27   lw x8, 0x7f00
+0x00000044  0xf0042403  lw x8,0xffffff00(x8)       
+0x00000048  0x000083b7  lui x7,0x00000008     28   lw x7, 0x7f10
+0x0000004c  0xf103a383  lw x7,0xffffff10(x7)       
+0x00000050  0x0077a023  sw x7,0x00000000(x15) 29   sw x7, (x15)
+0x00000054  0xfe0406e3  beq x8,x0,0xfffffff6  30   beq x8, x0, L11
+0x00000058  0x000085b7  lui x11,0x00000008    32   lw x11, 0x7f00
+0x0000005c  0xf005a583  lw x11,0xffffff00(x11)     
+0x00000060  0xfe858ce3  beq x11,x8,0xfffffffc 33   beq x11, x8, L22
+0x00000064  0x00400693  addi x13,x0,0x0000000436   addi x13, x0, 4  # ADD
+0x00000068  0x00d30463  beq x6,x13,0x00000004 37   beq x6, x13, L4B
+0x0000006c  0x0080006f  jal x0,0x00000004     38   j L4E
+0x00000070  0x007282b3  add x5,x5,x7          40   add x5, x5, x7
+0x00000074  0x00040313  addi x6,x8,0x00000000 44   addi x6, x8, 0
+0x00000078  0xfc9ff06f  jal x0,0xffffffe4     46   j LOOP
