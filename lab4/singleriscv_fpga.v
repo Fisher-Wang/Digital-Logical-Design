@@ -51,7 +51,7 @@ module singleriscv_fpga(input clk,
         rst_sync <= btnU_reg;
     end
     
-    assign reset_global = rst_sync | btnU;
+    assign reset_global = rst_sync | btnD;  // TODO: debug
     
     // instantiate devices to be tested
     singleriscv u_singleriscv(mclk, reset_global, pc, instr,

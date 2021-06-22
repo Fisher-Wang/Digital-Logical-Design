@@ -1,5 +1,5 @@
 module dmem_io(input clk,
-               input we,
+               input we, // memwrite
                input [31:0] a,
                input [31:0] wd, // writedata
                output [31:0] rd,
@@ -35,13 +35,13 @@ module dmem_io(input clk,
     
     // dmem read
     always @(a, porta, portb, portc_reg, portd_reg, rdata_RAM) begin
-        if (a == 32'h0000ff00)
+        if (a == 32'h00007f00)
             begin rdata = {{28{1'b0}}, porta}; end
-        else if (a == 32'h0000ff10)
-            begin rdata = {{24{1'b0}}, portb}; end
-        else if (a == 32'h0000ff20)
+        else if (a == 32'h00007f10)
+            begin rdata = {{16{1'b0}}, portb}; end
+        else if (a == 32'h00007f20)
             begin rdata = {{16{1'b0}}, portc_reg}; end
-        else if (a == 32'h0000fffc)
+        else if (a == 32'h00007ffc)
             begin rdata = {{16{1'b0}}, portd_reg}; end
         else
             rdata = rdata_RAM; // word aligned

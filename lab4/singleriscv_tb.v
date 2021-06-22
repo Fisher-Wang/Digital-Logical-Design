@@ -16,16 +16,17 @@ module singleriscv_tb();
     wire [15:0] portc_out;
     wire [15:0] portd_out;
     
-    assign bnt      = {btnL, btnC, btnR, btnU}; // add, sub, multiply,      = 
+    assign btn      = {btnL, btnC, btnR, btnU}; // add, sub, multiply,      = 
     assign portb_in = sw;		// You need connect this portb_in to output of BCD2Bin module which input is sw;
     
     // instantiate devices to be tested
-    singleriscv u_singleriscv(mclk, reset_global, pc, instr,
+    // assign reset_global = btnD;
+    singleriscv u_singleriscv(clk, btnD, pc, instr,
         memwrite, dmem_address, writedata, readdata);
     
     imem imem(pc[9:2], instr);
     
-    dmem_io dmem_io(mclk, memwrite, dmem_address,
+    dmem_io dmem_io(clk, memwrite, dmem_address,
         writedata, readdata, btn, portb_in, portc_out, portd_out);
     
     assign led = portd_out;
@@ -40,8 +41,6 @@ module singleriscv_tb();
         btnD <= 1; # 40; btnD <= 0;
     end
     
-    assign reset_global = btnD;
-    
     // generate clock to sequence tests
     always begin
     # 20;
@@ -49,16 +48,15 @@ module singleriscv_tb();
     clk <= 0;
     end
     
-    assign mclk = clk;
-    
     // check results
     always@(negedge clk) begin
         if (memwrite) begin
             if (dmem_address == 32'h00007ffc & writedata == 1) begin
                 $display("Simulation succeeded");
-                $stop;
+                $finish;
             end
-            else $display("Simulation Continue...");
+            else
+                $display("Simulation Continue...");
             //$stop;
         end
     end
@@ -67,7 +65,7 @@ endmodule
 module imem (input [7:0] a,
              output [31:0] rd);
 
-	reg [31:0] RAM[256:0];
+	reg [31:0] RAM[0:255];  // TODO: maybe need to change back to [255:0]
 
 	initial begin
 		$readmemh ("riscvtest.dat",RAM);
