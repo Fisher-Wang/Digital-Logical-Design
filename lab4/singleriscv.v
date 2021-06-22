@@ -67,7 +67,7 @@ module maindec(
             7'b0110011: controls <= 9'b1000000_10; //R-TYP
             7'b0000011: controls <= 9'b1010010_00; //LW (load word)
             7'b0100011: controls <= 9'b0010100_00; //SW (store word)
-            7'b1100011: controls <= 9'b0001000_01; //BEQ
+            7'b1100011: controls <= 9'b0001000_01; //BEQ or BNE
             7'b0010011: controls <= 9'b1010000_11; //I-TYPE
             7'b1101111: controls <= 9'b0000001_00; //JAL
             default:   controls  <= 9'bxxxxxx_xxx; //???
@@ -118,9 +118,14 @@ module datapath(
     wire [31:0] srca, srcb;
     wire [4:0]  shamt;
     wire [31:0] aluout_lui, result;
+
+    // BNE 
+    wire is_bne, branch_satisfy;
+    assign is_bne = instr[12];
+    assign branch_satisfy = is_bne ^ zero;
     
     // next PC logic
-    assign pcsrc = branch & zero;
+    assign pcsrc = branch & branch_satisfy;
     
     flopr #(32) pcreg(clk, reset, pcnext, pc);
     adder       pcadd1(pc, 32'b100, pcplus4);

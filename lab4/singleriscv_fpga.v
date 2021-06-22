@@ -71,11 +71,6 @@ module singleriscv_fpga(input clk,
     
     assign led = portd_out;
 
-    // TODO: You need connect this IO to output of LED Driver which input is portc_out
-    // assign seg = 0;
-    // TODO: You need connect this IO to output of LED Driver which input is portc_out
-    // assign an = 4'b1111;
-
     /* display */
     wire [3:0] thousands, hundreds, tens, ones;
     //bin2BCD

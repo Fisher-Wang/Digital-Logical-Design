@@ -43,12 +43,18 @@ lw x11, 0x7f00
 beq x11, x8, L22
 
 # calculate
-addi x13, x0, 4  # ADD
-beq x6, x13, L4B
-j L4E
-L4B:
+addi x13, x0, 8  # ADD
+bne x6, x13, ADD_END
 add x5, x5, x7
-L4E:
+j CAL_END
+ADD_END:
+addi x13, x0, 2  # SUB
+bne x6, x13, SUB_END
+sub x5, x5, x7
+j CAL_END
+SUB_END:
+
+CAL_END:
 
 # display result
 sw x5, (x15)
