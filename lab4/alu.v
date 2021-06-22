@@ -7,14 +7,24 @@ module alu32 #(parameter WIDTH = 32)
                output zero);
     
     wire [31:0]addresult;
-    wire [31:0]addresult1 = 0;
     reg[31:0] aluresult;
-    wire[31:0] srcc;
-    assign srcc = ~srcb+1;
-    wire c0,c1,c2,c3;
     
-    assign addresult = alucontrol[3] ? (srca - srcb) : (srca+srcb);
+    // TODO: adder
+
+    wire [31:0] a, b;
+    wire c_top;
+    assign a = srca;
+    assign srcb_complement = (~srcb)+1;
+    assign b = alucontrol[3] ? srcb_complement : srcb;
     
+    // CLA_32 adder(
+    //     .A(a),
+    //     .B(b),
+    //     .S(addresult),
+    //     .C_out(c_top)
+    // );
+    assign addresult = a + b;
+
     always @* begin
         case (alucontrol[2:0])
             3'b000: aluresult    = addresult; //Add/SUB
