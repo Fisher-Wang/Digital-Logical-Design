@@ -17,7 +17,7 @@ module alu32 #(parameter WIDTH = 32)
     /* TODO: potentially buggy code when more instruction are added */
     // SUB: alucontrol[3] = 1
     // SLT: alucontrol[1] = 1
-    assign b = (alucontrol[3] | alucontrol[1]) ? srcb_complement : srcb;
+    assign b = (alucontrol[3] | alucontrol[2]) ? srcb_complement : srcb;
 
     CLA_32_wfs adder(a, b, 0, addresult, co);
     assign overflow = (a[31] & b[31] & ~addresult[31]) | (~a[31] & ~b[31] & addresult[31]);
