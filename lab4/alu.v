@@ -12,7 +12,7 @@ module alu32 #(parameter WIDTH = 32)
     // TODO: adder
 
     wire [31:0] a, b;
-    wire overflow;
+    wire co, overflow;
     wire [31:0] srcb_complement;
     assign a = srca;
     assign srcb_complement = (~srcb)+1;
@@ -22,17 +22,17 @@ module alu32 #(parameter WIDTH = 32)
     //     .A(a),
     //     .B(b),
     //     .S(addresult),
-    //     .C_out(overflow)
+    //     .C_out(co)
     // );
     // assign addresult = a + b;
 
-    adder_32bits adder(a, b, 0, addresult, overflow);
+    CLA_32_wfs adder(a, b, 0, addresult, co);
 
     always @* begin
         case (alucontrol[2:0])
             3'b000: aluresult    = addresult; //Add/SUB
             3'b001: aluresult    = srca << shamt; //SLL
-            3'b010: aluresult    = (overflow ^ addresult[31]) ? 1 : 0; //SLT
+            3'b010: aluresult    = (co ^ addresult[31]) ? 1 : 0; //SLT
             3'b011: aluresult    = {(WIDTH){1'bx}}; //SLTU
             3'b100: aluresult    = srca ^ srcb; //XOR
             3'b101: aluresult    = {{1'b0}, srca[WIDTH-1:1]}; //SRL/SRA, only shift by 1 in this lab
