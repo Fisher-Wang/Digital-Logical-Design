@@ -53,7 +53,11 @@ bne x6, x13, SUB_END
 sub x5, x5, x7
 j CAL_END
 SUB_END:
-
+addi x13, x0, 4  # SLT
+bne x6, x13, SLT_END
+slt x5, x5, x7
+j CAL_END
+SLT_END:
 CAL_END:
 
 # display result
