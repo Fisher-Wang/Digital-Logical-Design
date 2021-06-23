@@ -3,7 +3,7 @@ module dmem_io(input clk,
                input [31:0] a, // address
                input [31:0] wd, // writedata
                output [31:0] rd,
-               input [4:0] porta_in,
+               input [3:0] porta_in,
                input [15:0] portb_in,
                output [15:0] portc_out,
                output [15:0] portd_out);
@@ -15,7 +15,7 @@ module dmem_io(input clk,
     wire we_portc;
     wire we_portd;
     
-    wire [4:0] porta;
+    wire [3:0] porta;
     wire [15:0] portb;
     reg [15:0] portc_reg;
     reg [15:0]  portd_reg;
@@ -32,7 +32,7 @@ module dmem_io(input clk,
     // dmem read
     always @(a, porta, portb, portc_reg, portd_reg, rdata_RAM) begin
         if (a == 32'h00007f00)
-            begin rdata = {{27{1'b0}}, porta}; end
+            begin rdata = {{28{1'b0}}, porta}; end
         else if (a == 32'h00007f10)
             begin rdata = {{16{1'b0}}, portb}; end
         else if (a == 32'h00007f20)

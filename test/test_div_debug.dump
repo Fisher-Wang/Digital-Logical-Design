@@ -49,25 +49,24 @@
 0x000000b8  0xf1072703  lw x14,0xffffff10(x14)     
 0x000000bc  0x00040313  addi x6,x8,0x00000000 82   addi x6, x8, 0
 0x000000c0  0xf8dff06f  jal x0,0xffffffc6     84   j LOOP
-0x000000c4  0x00007a13  andi x20,x0,0x0000000095     andi x20, x0, 0
-0x000000c8  0x00007a93  andi x21,x0,0x0000000096     andi x21, x0, 0
-0x000000cc  0x00007b13  andi x22,x0,0x0000000097     andi x22, x0, 0
-0x000000d0  0x00007b93  andi x23,x0,0x0000000098     andi x23, x0, 0
-0x000000d4  0x00007c13  andi x24,x0,0x0000000099     andi x24, x0, 0
-0x000000d8  0x00500a33  add x20,x0,x5         100    mv x20, x5
-0x000000dc  0x00700ab3  add x21,x0,x7         101    mv x21, x7
-0x000000e0  0x01100b93  addi x23,x0,0x00000011107    addi x23, x0, 17
-0x000000e4  0x010a9a93  slli x21,x21,0x0000001108    slli x21, x21, 16
-0x000000e8  0x415a0a33  sub x20,x20,x21       110    sub x20, x20, x21
-0x000000ec  0x000a2c33  slt x24,x20,x0        111    slt x24, x20, x0 # remainder < 0 ?
-0x000000f0  0x000c1863  bne x24,x0,0x00000008 112    bne x24, x0, Test_Remainder
-0x000000f4  0x001b1b13  slli x22,x22,0x0000000113    slli x22, x22, 1 # remainder >= 0
-0x000000f8  0x001b0b13  addi x22,x22,0x0000000114    addi x22, x22, 1
-0x000000fc  0x00c0006f  jal x0,0x00000006     115    j Test_Done
-0x00000100  0x015a0a33  add x20,x20,x21       117    add x20, x20, x21
-0x00000104  0x001b1b13  slli x22,x22,0x0000000118    slli x22, x22, 1
-0x00000108  0x001ada93  srli x21,x21,0x0000000120    srli x21, x21, 1
-0x0000010c  0xfffb8b93  addi x23,x23,0xfffffff121    addi x23, x23, -1
-0x00000110  0xfc0b9ce3  bne x23,x0,0xffffffec 122    bne x23, x0, Loop
-0x00000114  0x016002b3  add x5,x0,x22         124    mv x5, x22
-0x00000118  0xf95ff06f  jal x0,0xffffffca     125  j CAL_END
+0x000000c4  0x0007a023  sw x0,0x00000000(x15) 97   sw x0, (x15)
+0x000000c8  0xffdff06f  jal x0,0xfffffffe     98   j T
+0x000000cc  0x00000f13  addi x30,x0,0x00000000100  addi x30,x0,0
+0x000000d0  0x00000e13  addi x28,x0,0x00000000101  addi x28,x0,0
+0x000000d4  0x01000e93  addi x29,x0,0x00000010102  addi x29,x0,16
+0x000000d8  0x00f39393  slli x7,x7,0x0000000f 103  slli x7,x7,15
+0x000000dc  0x03de0863  beq x28,x29,0x00000018106  beq x28,x29,END_DIV
+0x000000e0  0x0072afb3  slt x31,x5,x7         108  slt x31,x5,x7
+0x000000e4  0x407282b3  sub x5,x5,x7          109  sub x5,x5,x7
+0x000000e8  0x000f9863  bne x31,x0,0x00000008 110  bne x31,x0,L2b 	# branch less than zero
+0x000000ec  0x001f1f13  slli x30,x30,0x0000000112  slli x30,x30,1	# shift left logical immediate
+0x000000f0  0x001f6f13  ori x30,x30,0x00000001113  ori x30,x30,1	# or immediate
+0x000000f4  0x00c0006f  jal x0,0x00000006     114  j L3
+0x000000f8  0x007282b3  add x5,x5,x7          116  add x5,x5,x7
+0x000000fc  0x001f1f13  slli x30,x30,0x0000000117  slli x30,x30,1
+0x00000100  0x4013d393  srai x7,x7,0x00000001 119  srai x7,x7,1	# shift rigth arithmetic immediate
+0x00000104  0x001e0e13  addi x28,x28,0x0000000121  addi x28,x28,1
+0x00000108  0xfd5ff06f  jal x0,0xffffffea     122  j BEGIN_DIV
+0x0000010c  0x000f0293  addi x5,x30,0x00000000124  addi x5, x30, 0
+0x00000110  0x0057a023  sw x5,0x00000000(x15) 125  sw x5, (x15)
+0x00000114  0xff9ff06f  jal x0,0xfffffffc     126  j END_DIV

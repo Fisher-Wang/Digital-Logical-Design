@@ -9,7 +9,7 @@ module singleriscv_fpga(input clk,
                         output [0:6] seg,
                         output [0:3] an);
     
-    wire [4:0] btn;
+    wire [3:0] btn;
     wire [31:0] pc, instr;
     wire [31:0] dmem_address, writedata, readdata;
     wire memwrite;
@@ -18,7 +18,8 @@ module singleriscv_fpga(input clk,
     wire [15:0] portc_out;
     wire [15:0] portd_out;
     
-    assign btn      = {btnL, btnC, btnR, btnU, btnD}; // add, sub, multiply,      = 
+    assign btn      = {btnL, btnC, btnR, btnU}; // add, sub, multiply,      = 
+    // assign btn      = {btnL, btnC, btnU, btnR}; // add, sub, multiply,      = 
     // assign portb_in = sw;		
     BCD2binary_wfs u_BCD2binary_wfs (
         .thousands_wfs(sw[15:12]),

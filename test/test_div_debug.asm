@@ -92,34 +92,35 @@ j LOOP
 # counter x28
 
 DIV_FUNC:
-  andi x20, x0, 0
-  andi x21, x0, 0
-  andi x22, x0, 0
-  andi x23, x0, 0
-  andi x24, x0, 0
-  mv x20, x5
-  mv x21, x7
-  # remainder reg: x20
-  # devisor reg:   x21
-  # quotient reg:  x22
-  # counter:       x23
-  # buffer:        x24
-  addi x23, x0, 17
-  slli x21, x21, 16
-Loop:
-  sub x20, x20, x21
-  slt x24, x20, x0 # remainder < 0 ?
-  bne x24, x0, Test_Remainder
-  slli x22, x22, 1 # remainder >= 0
-  addi x22, x22, 1
-  j Test_Done
-Test_Remainder: # remainder < 0
-  add x20, x20, x21
-  slli x22, x22, 1
-Test_Done:
-  srli x21, x21, 1
-  addi x23, x23, -1
-  bne x23, x0, Loop
-  
-  mv x5, x22
-j CAL_END
+
+T:
+sw x0, (x15)
+j T
+
+addi x30,x0,0
+addi x28,x0,0
+addi x29,x0,16
+slli x7,x7,15
+
+BEGIN_DIV:
+beq x28,x29,END_DIV
+
+slt x31,x5,x7
+sub x5,x5,x7
+bne x31,x0,L2b 	# branch less than zero
+L2a:
+slli x30,x30,1	# shift left logical immediate
+ori x30,x30,1	# or immediate
+j L3
+L2b:
+add x5,x5,x7
+slli x30,x30,1
+L3:
+srai x7,x7,1	# shift rigth arithmetic immediate
+
+addi x28,x28,1
+j BEGIN_DIV
+END_DIV:
+addi x5, x30, 0
+sw x5, (x15)
+j END_DIV

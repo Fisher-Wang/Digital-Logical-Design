@@ -1,0 +1,70 @@
+ Address    Code        Basic                     Source
+
+0x00000000  0x00000293  addi x5,x0,0x00000000 3        addi x5, x0, 0 
+0x00000004  0x00000313  addi x6,x0,0x00000000 4        addi x6, x0, 0
+0x00000008  0x07f00813  addi x16,x0,0x0000007f5        addi x16, x0, 0x7f
+0x0000000c  0x00881813  slli x16,x16,0x00000006        slli x16, x16, 8
+0x00000010  0x01082383  lw x7,0x00000010(x16) 8        lw x7, 16(x16)
+0x00000014  0x00082403  lw x8,0x00000000(x16) 9        lw x8, 0(x16)
+0x00000018  0x01082483  lw x9,0x00000010(x16) 11       lw x9, 16(x16)
+0x0000001c  0x00748663  beq x9,x7,0x00000006  12       beq x9, x7, L3
+0x00000020  0x009003b3  add x7,x0,x9          13       mv x7, x9
+0x00000024  0x02782023  sw x7,0x00000020(x16) 14       sw x7, 32(x16)
+0x00000028  0x00082503  lw x10,0x00000000(x16)16       lw x10, 0(x16)
+0x0000002c  0xfea406e3  beq x8,x10,0xfffffff6 17       beq x8, x10, L2
+0x00000030  0x00a00433  add x8,x0,x10         18       mv x8, x10
+0x00000034  0x00082503  lw x10,0x00000000(x16)20       lw x10, 0(x16)
+0x00000038  0xfe051ee3  bne x10,x0,0xfffffffe 21       bne x10, x0, L4
+0x0000003c  0x007002b3  add x5,x0,x7          22       mv x5, x7
+0x00000040  0x00800333  add x6,x0,x8          23       mv x6, x8
+0x00000044  0xfff30313  addi x6,x6,0xffffffff 24       addi x6, x6, -1
+0x00000048  0xfc0308e3  beq x6,x0,0xffffffe8  25       beq x6 x0, L2
+0x0000004c  0x00130313  addi x6,x6,0x00000001 26       addi x6, x6, 1
+0x00000050  0x01082383  lw x7,0x00000010(x16) 29       lw x7, 16(x16)
+0x00000054  0x00082403  lw x8,0x00000000(x16) 30       lw x8, 0(x16)
+0x00000058  0x01082483  lw x9,0x00000010(x16) 32       lw x9, 16(x16)
+0x0000005c  0x00748663  beq x9,x7,0x00000006  33       beq x9, x7, L7
+0x00000060  0x009003b3  add x7,x0,x9          34       mv x7, x9
+0x00000064  0x02782023  sw x7,0x00000020(x16) 35       sw x7, 32(x16)
+0x00000068  0x00082503  lw x10,0x00000000(x16)37       lw x10, 0(x16)
+0x0000006c  0xfea406e3  beq x8,x10,0xfffffff6 38       beq x8, x10, L6
+0x00000070  0x00a00433  add x8,x0,x10         39       mv x8, x10
+0x00000074  0x00082503  lw x10,0x00000000(x16)41       lw x10, 0(x16)
+0x00000078  0xfe051ee3  bne x10,x0,0xfffffffe 42       bne x10, x0, L8
+0x0000007c  0x00200593  addi x11,x0,0x0000000244       addi x11, x0, 2
+0x00000080  0x02b30263  beq x6,x11,0x00000012 45       beq x6, x11, DIV
+0x00000084  0x00400593  addi x11,x0,0x0000000446       addi x11, x0, 4
+0x00000088  0x00b30a63  beq x6,x11,0x0000000a 47       beq x6, x11, SUB
+0x0000008c  0x00800593  addi x11,x0,0x0000000848       addi x11, x0, 8
+0x00000090  0x00b30263  beq x6,x11,0x00000002 49       beq x6, x11, ADD
+0x00000094  0x007282b3  add x5,x5,x7          52       add x5, x5, x7
+0x00000098  0x0640006f  jal x0,0x00000032     53       j NEXT
+0x0000009c  0x407282b3  sub x5,x5,x7          56       sub x5, x5, x7
+0x000000a0  0x05c0006f  jal x0,0x0000002e     57       j NEXT
+0x000000a4  0x00007a13  andi x20,x0,0x0000000060       andi x20, x0, 0
+0x000000a8  0x00007a93  andi x21,x0,0x0000000061       andi x21, x0, 0
+0x000000ac  0x00007b13  andi x22,x0,0x0000000062       andi x22, x0, 0
+0x000000b0  0x00007b93  andi x23,x0,0x0000000063       andi x23, x0, 0
+0x000000b4  0x00007c13  andi x24,x0,0x0000000064       andi x24, x0, 0
+0x000000b8  0x00500a33  add x20,x0,x5         65       mv x20, x5
+0x000000bc  0x00700ab3  add x21,x0,x7         66       mv x21, x7
+0x000000c0  0x01100b93  addi x23,x0,0x0000001167       addi x23, x0, 17
+0x000000c4  0x010a9a93  slli x21,x21,0x000000168       slli x21, x21, 16
+0x000000c8  0x415a0a33  sub x20,x20,x21       70       sub x20, x20, x21
+0x000000cc  0x000a2c33  slt x24,x20,x0        71       slt x24, x20, x0
+0x000000d0  0x000c1863  bne x24,x0,0x00000008 72       bne x24, x0, REMAIN
+0x000000d4  0x001b1b13  slli x22,x22,0x000000073       slli x22, x22, 1
+0x000000d8  0x001b0b13  addi x22,x22,0x000000074       addi x22, x22, 1
+0x000000dc  0x00c0006f  jal x0,0x00000006     75       j DONE
+0x000000e0  0x015a0a33  add x20,x20,x21       77       add x20, x20, x21
+0x000000e4  0x001b1b13  slli x22,x22,0x000000078       slli x22, x22, 1
+0x000000e8  0x001ada93  srli x21,x21,0x000000080       srli x21, x21, 1
+0x000000ec  0xfffb8b93  addi x23,x23,0xfffffff81       addi x23, x23, -1
+0x000000f0  0xfc0b9ce3  bne x23,x0,0xffffffec 82       bne x23, x0, LOOP
+0x000000f4  0x016002b3  add x5,x0,x22         84       mv x5, x22
+0x000000f8  0x0040006f  jal x0,0x00000002     85       j NEXT
+0x000000fc  0x02582023  sw x5,0x00000020(x16) 88       sw x5, 32(x16)
+0x00000100  0x00100593  addi x11,x0,0x0000000189       addi x11, x0, 1
+0x00000104  0xeeb40ee3  beq x8,x11,0xffffff7e 90       beq x8, x11, main
+0x00000108  0x00800333  add x6,x0,x8          91       mv x6, x8
+0x0000010c  0xf45ff06f  jal x0,0xffffffa2     92       j L5
