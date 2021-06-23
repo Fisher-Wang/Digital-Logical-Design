@@ -4,17 +4,18 @@
 # counter x22
 li x5 17
 li x7 5
-li x24 0
 
-li x22,0
-li x23,16
+addi x24,x0,0
+addi x22,x0,0
+addi x23,x0,16
 slli x7,x7,15
 
-BEGIN:
-bge x22,x23,END
+BEGIN_DIV:
+beq x22,x23,END_DIV
 
+slt x25,x5,x7
 sub x5,x5,x7
-bltz x5,L2b 	# branch less than zero
+bne x25,x0,L2b 	# branch less than zero
 L2a:
 slli x24,x24,1	# shift left logical immediate
 ori x24,x24,1	# or immediate
@@ -26,5 +27,6 @@ L3:
 srai x7,x7,1	# shift rigth arithmetic immediate
 
 addi x22,x22,1
-j BEGIN
-END:
+j BEGIN_DIV
+END_DIV:
+addi x5, x24, 0

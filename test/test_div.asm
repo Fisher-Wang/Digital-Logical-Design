@@ -1,8 +1,8 @@
 .text
 
-li x5, 17
-li x7, 5
-j DIV
+# li x5, 40
+# li x7, 8
+# j DIV
 
 BEGIN:
 addi x15, x0, 0x7f
@@ -68,7 +68,7 @@ SUB_END:
 # SLT_END:
 addi x13, x0, 4  # DIV
 bne x6, x13, DIV_END
-j DIV
+j DIV_FUNC
 RETURN:
 j CAL_END
 DIV_END:
@@ -89,31 +89,35 @@ j LOOP
 
 ## DIV ##
 
-DIV:
-addi x20, x0, 0
-addi x22, x0, 0
-addi x23, x0, 16
+# divisor x7
+# reminder x5
+# quotient x30
+# counter x28
+
+DIV_FUNC:
+addi x30,x0,0
+addi x28,x0,0
+addi x29,x0,16
 slli x7,x7,15
 
 BEGIN_DIV:
-beq x22,x23,END_DIV
+beq x28,x29,END_DIV
 
-# sub x5,x5,x7
-# bltz x5,L2b 	# branch less than zero
-slt x21, x5, x7
-bne x21, x0, L2b
+slt x31,x5,x7
+sub x5,x5,x7
+bne x31,x0,L2b 	# branch less than zero
 L2a:
-slli x20,x20,1	# shift left logical immediate
-ori x20,x20,1	# or immediate
+slli x30,x30,1	# shift left logical immediate
+ori x30,x30,1	# or immediate
 j L3
 L2b:
 add x5,x5,x7
-slli x20,x20,1
+slli x30,x30,1
 L3:
 srai x7,x7,1	# shift rigth arithmetic immediate
 
-addi x22,x22,1
+addi x28,x28,1
 j BEGIN_DIV
 END_DIV:
-addi x5, x20, 0
+addi x5, x30, 0
 j RETURN
