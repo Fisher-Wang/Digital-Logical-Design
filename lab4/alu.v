@@ -9,8 +9,6 @@ module alu32 #(parameter WIDTH = 32)
     wire [31:0]addresult;
     reg[31:0] aluresult;
     
-    // TODO: adder
-
     wire [31:0] a, b;
     wire co, overflow;
     wire [31:0] srcb_complement;
