@@ -9,7 +9,7 @@ module singleriscv_fpga(input clk,
                         output [0:6] seg,
                         output [0:3] an);
     
-    wire [3:0] btn;
+    wire [4:0] btn;
     wire [31:0] pc, instr;
     wire [31:0] dmem_address, writedata, readdata;
     wire memwrite;
@@ -51,14 +51,14 @@ module singleriscv_fpga(input clk,
     //generate 10Hz clock
     assign mclk = clk_gen_bufg;
     
-    reg rst_sync, btnU_reg;
+    reg rst_sync, btnD_reg;
     // synchronize reset input bnt[3]
     always @(posedge mclk) begin
-        btnU_reg <= btnU;
-        rst_sync <= btnU_reg;
+        btnD_reg <= btnD;
+        rst_sync <= btnD_reg;
     end
     
-    assign reset_global = rst_sync | btnU;  // TODO: debug
+    assign reset_global = rst_sync | btnD;  // TODO: debug
     
     // instantiate devices to be tested
     singleriscv u_singleriscv(mclk, reset_global, pc, instr,
